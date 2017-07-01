@@ -1,0 +1,35 @@
+{
+  "name": "svg-to-url-service",
+  "version": "1.0.0",
+  "description": "A micro service to convert svg string to data url",
+  "repository": "zillding/svg-to-url-service",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "start": "micro"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "svg",
+    "url",
+    "service"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "micro": "^7.3.3",
+    "micro-cors": "0.0.4",
+    "microrouter": "^2.1.1",
+    "svg-to-url": "^1.1.0"
+  },
+  "devDependencies": {
+    "husky": "^0.14.2",
+    "lint-staged": "^4.0.0",
+    "prettier": "^1.5.2"
+  }
+}
