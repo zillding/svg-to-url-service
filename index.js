@@ -1,9 +1,4 @@
-const { json, send } = require("micro");
-const { router, get, post } = require("microrouter");
 const { stringToUrl } = require("svg-to-url");
-const cors = require("micro-cors")();
-
-const getReq = () => "svg to url service";
 
 function getErrStr(err) {
   if (typeof err === "string") return err;
@@ -12,19 +7,39 @@ function getErrStr(err) {
   return "";
 }
 
-const postReq = async (req, res) => {
-  const { data, svgoConfig } = (await json(req)) || {};
-  try {
-    const result = await stringToUrl(svgoConfig)(data);
-    send(res, 200, result);
-  } catch (err) {
-    const message = getErrStr(err);
-    if (message.split("\n")[0].startsWith("Error in parsing SVG:")) {
-      send(res, 400, message);
-    } else {
-      send(res, 500);
-    }
-  }
-};
+module.exports = (req, res) => {
+  // enable cors
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 
-module.exports = cors(router(get("/", getReq), post("/", postReq)));
+  if (req.method === "GET") {
+    res.end("svg to url service");
+    return;
+  }
+
+  let body = "";
+
+  req.on("data", chunk => {
+    body += chunk;
+  });
+
+  req.on("end", async () => {
+    try {
+      const { data, svgoConfig } = JSON.parse(body);
+      const result = await stringToUrl(svgoConfig)(data);
+      res.end(result);
+    } catch (err) {
+      const message = getErrStr(err);
+      if (message.split("\n")[0].startsWith("Error in parsing SVG:")) {
+        res.statusCode = 400;
+        res.end(message);
+      } else {
+        res.statusCode = 500;
+        res.end();
+      }
+    }
+  });
+};
