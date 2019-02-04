@@ -15,6 +15,11 @@ module.exports = (req, res) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
 
+  if (req.method === "GET") {
+    res.end("svg to url service");
+    return;
+  }
+
   let body = "";
 
   req.on("data", chunk => {
