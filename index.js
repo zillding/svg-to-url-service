@@ -7,8 +7,21 @@ function getErrStr(err) {
   return "";
 }
 
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Max-Age": 86400
+};
+
 module.exports = (req, res) => {
   // enable cors
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, headers);
+    res.end();
+    return;
+  }
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
