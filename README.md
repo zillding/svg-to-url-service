@@ -1,6 +1,6 @@
 # svg-to-url-service
 
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier) [![Greenkeeper badge](https://badges.greenkeeper.io/zillding/svg-to-url-service.svg)](https://greenkeeper.io/)
 
 A micro service to convert svg string to data url
 
